@@ -11,18 +11,26 @@ const PM = new ProductManagerDB();
 
 // Endpoint para buscar los productos
 router.get('/', async (req, res) => {
-    
-
-    const { limit = 10, page, sort, query } = req.query;
-
     try {
-        let products = await PM.getProducts();
+        
+        const { limit = 10, page, sort, query } = req.query;
+        
+        const products = await PM.getProducts({ limit, page, sort, query });
 
-        if (limit) {
-            products = products.slice(0, limit);
-        }
-    
-        res.send(products);
+        const response = {
+            status: 'success',
+            payload: products.docs,
+            totalPages: products.totalPages,
+            prevPage: products.prevPage || null,
+            nextPage: products.nextPage || null,
+            page: products.page,
+            hasPrevPage: products.hasPrevPage,
+            hasNextPage: products.hasNextPage,
+            prevLink: products.prevPage ? `/api/products?limit=${limit}&page=${products.prevPage}` : null,
+            nextLink: products.nextPage ? `/api/products?limit=${limit}&page=${products.nextPage}` : null,
+        };
+
+        res.json(response);
     } catch (e) {
         console.error("Error al obtener los productos")
         res.status(500).send(`Error al obtener los producto`,e)
