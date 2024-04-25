@@ -80,11 +80,14 @@ router.post("/:cid/product/:pid", async (req, res) => {
     }
 });
 
-// DELETE api/carts/:cid/products/:pid deberá eliminar del carrito el producto seleccionado.
-router.delete('/:cid/products/:pid', async (req, res) => {
+router.delete('/:cid/product/:pid', async (req, res) => {
+    //DB
+    const cartId = req.params.cid;
+    const productId = req.params.pid;
+    
     try {
-        const { cid, pid } = req.params;
-        await CM.removeProductFromCart(cid, pid);
+        
+        await CM.removeProductFromCart(cartId, productId);
         res.send('Producto eliminado del carrito correctamente');
     } catch (error) {
         console.error("Error al eliminar el producto del carrito:", error);
@@ -94,10 +97,15 @@ router.delete('/:cid/products/:pid', async (req, res) => {
 
 // PUT api/carts/:cid/products/:pid deberá poder actualizar SÓLO la cantidad de ejemplares del producto por cualquier cantidad pasada desde req.body
 router.put('/:cid/products/:pid', async (req, res) => {
+    //DB
+    const cartId = req.params.cid;
+    const productId = req.params.pid;
+
+    const { quantity } = req.body;
+
     try {
-        const { cid, pid } = req.params;
-        const { quantity } = req.body;
-        await CM.updateProductQuantity(cid, pid, quantity);
+        
+        await CM.updateProductQuantity(cartId, productId, quantity);
         res.send('Cantidad de producto actualizada correctamente');
     } catch (error) {
         console.error("Error al actualizar la cantidad del producto:", error);
@@ -105,11 +113,13 @@ router.put('/:cid/products/:pid', async (req, res) => {
     }
 });
 
-// DELETE api/carts/:cid deberá eliminar todos los productos del carrito
+// Eliminar carrito
 router.delete('/:cid', async (req, res) => {
+    //DB
+    const cartId = req.params.cid;
+
     try {
-        const { cid } = req.params;
-        await CM.deleteCart(cid);
+        await CM.deleteCart(cartId);
         res.send('Productos eliminados del carrito correctamente');
     } catch (error) {
         console.error("Error al eliminar los productos del carrito:", error);
