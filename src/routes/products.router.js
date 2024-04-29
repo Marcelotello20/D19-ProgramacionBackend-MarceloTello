@@ -2,6 +2,7 @@ import express from 'express';
 import __dirname from '../utils/utils.js';
 // import ProductManagerFS from '../dao/ProductManagerFS.js';
 import ProductManagerDB from '../dao/ProductManagerDB.js';
+import productModel from '../dao/models/productModel.js';
 
 const router = express.Router();
 const productsRouter = router;
@@ -10,19 +11,31 @@ const productsRouter = router;
 const PM = new ProductManagerDB();
 
 router.get('/', async (req, res) => {
-    try {
-        const { limit } = req.query;
+    let { page = 1, limit = 10, sort, query } = req.query;
 
-        let products = await PM.getProducts();
-    
-        if (limit) {
-            products = products.slice(0, limit);
-        }
-    
-        res.send(products);
-    } catch (e) {
-        console.error("Error al obtener los productos:", e);
-        res.status(500).json("Error al obtener los productos",e);
+    if (sort) {
+        sort = JSON.parse(sort);
+    } else {
+        sort = { _id: 'asc' }; 
+    }
+
+    const options = {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        sort: sort,
+        lean: true 
+    };
+
+    const queryOptions = query ? { title: { $regex: query, $options: 'i' } } : {};
+
+    try {
+        const result = await productModel.paginate(queryOptions, options);
+
+        console.log("Productos obtenidos con éxito");
+        res.send(result); // Devuelve la respuesta paginada directamente
+    } catch (error) {
+        console.error("Error al obtener productos");
+        res.status(500).send('Error al obtener los productos', error);
     }
 });
 
