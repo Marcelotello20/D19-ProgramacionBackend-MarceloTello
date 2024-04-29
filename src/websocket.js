@@ -21,10 +21,9 @@ export default (io) => {
     let messages = [];
 
     io.on("connection", (socket) => {
-        
+
         console.log("Nuevo cliente conectado")
 
-        // Cuando se conecta un cliente, emite la lista de productos actual
         socketUpdatedProducts(socket);
 
         //socket escuchando lista de productos en tiempo real
@@ -38,7 +37,8 @@ export default (io) => {
                 const messages = await MM.getAllMessages();
                 io.emit('messageLogs', messages);
             } catch (error) {
-                console.error("Error al guardar el mensaje:", error);
+                console.error("Error al guardar el mensaje");
+                res.status(500).send('Error al eliminar el producto del carrito', error);
             }
         });
     })

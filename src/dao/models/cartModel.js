@@ -23,10 +23,8 @@ const cartSchema = new mongoose.Schema({
   }
 });
 
-//Paginate
 cartSchema.plugin(mongoosePaginate);
 
-//Middleware pre de mongoose
 cartSchema.pre("find", function() {
   this.populate("products.product");
 })

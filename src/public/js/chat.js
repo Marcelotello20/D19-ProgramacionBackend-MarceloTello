@@ -14,7 +14,7 @@ Swal.fire({
     user=result.value
 });
 
-//Evento para escuchar el envio de mensajes al apretar Enter
+
 chatBox.addEventListener('keyup',evt=>{
     if(evt.key==="Enter"){
         if(chatBox.value.trim().length>0){
@@ -24,7 +24,6 @@ chatBox.addEventListener('keyup',evt=>{
     }
 })
 
-//Socket Listeners
 socket.on('messageLogs',data=>{
     let log = document.getElementById('messageLogs');
     let messages = "" ;

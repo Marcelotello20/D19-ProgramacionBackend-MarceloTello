@@ -9,7 +9,6 @@ const productsRouter = router;
 //const PM = new ProductManager(`${__dirname}/Productos.json`);
 const PM = new ProductManagerDB();
 
-// Endpoint para buscar los productos
 router.get('/', async (req, res) => {
     try {
         const { limit } = req.query;
@@ -23,11 +22,10 @@ router.get('/', async (req, res) => {
         res.send(products);
     } catch (e) {
         console.error("Error al obtener los productos:", e);
-        res.status(500).json({ status: 'error', message: 'Error al obtener los productos' });
+        res.status(500).json("Error al obtener los productos",e);
     }
 });
 
-// Endpoint con el productId para buscar uno especifico 
 router.get('/:id', async (req, res) => {
     //FS
     // const productId = +req.params.id;
@@ -54,7 +52,6 @@ router.get('/:id', async (req, res) => {
     
 });
 
-// Agregar un nuevo producto
 router.post('/', async (req, res) => {
 
     const product = req.body;
@@ -63,12 +60,11 @@ router.post('/', async (req, res) => {
         await PM.addProduct(product);
         res.status(201).send('Producto creado correctamente');
     } catch (error) {
-        console.error("Error al crear el producto:", error);
-        res.status(500).send('Error al crear el producto');
+        console.error("Error al crear el producto");
+        res.status(500).send('Error al crear el producto', error);
     }
 });
 
-// Actualizar un producto por su id
 router.put('/:id', async (req, res) => {
     //FS
     // const productId = +req.params.id;
@@ -82,12 +78,11 @@ router.put('/:id', async (req, res) => {
         await PM.updateProduct(productId, update);
         res.send('Producto actualizado correctamente');
     } catch (error) {
-        console.error("Error al actualizar el producto:", error);
-        res.status(500).send('Error al actualizar el producto');
+        console.error("Error al actualizar el producto");
+        res.status(500).send('Error al actualizar el producto', error);
     }
 });
 
-// Eliminar un producto por su id
 router.delete('/:id', async (req, res) => {
     //FS
     // const productId = +req.params.id;
@@ -98,8 +93,8 @@ router.delete('/:id', async (req, res) => {
         await PM.deleteProduct(productId);
         res.send('Producto eliminado correctamente');
     } catch (error) {
-        console.error("Error al eliminar el producto:", error);
-        res.status(500).send('Error al eliminar el producto');
+        console.error("Error al eliminar el producto:");
+        res.status(500).send('Error al eliminar el producto', error);
     }
 });
 
@@ -115,8 +110,8 @@ router.post('/deleteproduct', async (req, res) => {
         await PM.deleteProduct(productId);
         res.send('Producto eliminado correctamente');
     } catch (error) {
-        console.error("Error al eliminar el producto:", error);
-        res.status(500).send('Error al eliminar el producto');
+        console.error("Error al eliminar el producto:");
+        res.status(500).send('Error al eliminar el producto', error);
     }
 });
 

@@ -49,22 +49,22 @@ body {
     font-size: 15px;
     width: 50%;
     justify-self: center;
-  }
+}
   
-  .form label {
+.form label {
     display: block;
     margin-bottom: 5px;
-  }
+}
   
-  .form input {
+.form input {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
+}
   
-  .form button {
+.form button {
     width: 100%;
     padding: 12px;
     background-color: #444; 
@@ -73,8 +73,33 @@ body {
     border-radius: 5px;
     font-size: 16px;
     cursor: pointer;
-  }
+}
   
-  .form button:hover {
+.form button:hover {
     background-color: #141414; 
-  }
+}
+
+.buttonsPag {
+    display: flex;
+    justify-content: center;
+}
+
+.buttonPaginate {
+    width: 150px;
+    padding: 10px 20px; 
+    margin: 0 5px; 
+    background-color: #444;
+    border-radius: 30px;
+}
+
+.buttonPaginate a{
+    font-family: 'Open Sans', serif;
+    color: white; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    cursor: pointer; 
+}
+
+.buttonPaginate:hover {
+    background-color: #660096; 
+}

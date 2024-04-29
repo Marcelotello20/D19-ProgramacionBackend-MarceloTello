@@ -13,8 +13,8 @@ router.post("/", async (req, res) => {
         const newCart = await CM.createCart();
         res.status(200).json(newCart);
     } catch (error) {
-        console.error("Error al crear el carrito", error);
-        res.status(500).send("Error al crear el carrito");
+        console.error("Error al crear el carrito");
+        res.status(500).send("Error al crear el carrito", error);
     }
 });
 
@@ -31,8 +31,8 @@ router.get("/", async (req, res) => {
 
         return res.json(cart);
     } catch (error) {
-        console.error("Error al obtener el carrito:", error);
-        return res.status(500).send("Error interno del servidor");
+        console.error("Error al obtener el carrito");
+        return res.status(500).send("Error interno del servidor", error);
     }
 });
 
@@ -54,8 +54,8 @@ router.get("/:cid", async (req, res) => {
 
         return res.json(cart);
     } catch (error) {
-        console.error("Error al obtener el carrito:", error);
-        return res.status(500).send("Error interno del servidor");
+        console.error("Error al obtener el carrito:");
+        return res.status(500).send("Error interno del servidor", error);
     }
 });
 
@@ -75,7 +75,7 @@ router.post("/:cid/product/:pid", async (req, res) => {
         await CM.addProductToCart(cartId, productId, quantity);
         res.status(200).send("Producto agregado al carrito");
     } catch (error) {
-        console.error("Error al agregar producto al carrito", error);
+        console.error("Error al agregar producto al carrito");
         res.status(500).send("Error al agregar producto al carrito", error);
     }
 });
@@ -86,12 +86,11 @@ router.delete('/:cid/product/:pid', async (req, res) => {
     const productId = req.params.pid;
     
     try {
-        
         await CM.removeProductFromCart(cartId, productId);
         res.send('Producto eliminado del carrito correctamente');
     } catch (error) {
-        console.error("Error al eliminar el producto del carrito:", error);
-        res.status(500).send('Error al eliminar el producto del carrito');
+        console.error("Error al eliminar el producto del carrito:");
+        res.status(500).send('Error al eliminar el producto del carrito', error);
     }
 });
 
@@ -108,8 +107,8 @@ router.put('/:cid/products/:pid', async (req, res) => {
         await CM.updateProductQuantity(cartId, productId, quantity);
         res.send('Cantidad de producto actualizada correctamente');
     } catch (error) {
-        console.error("Error al actualizar la cantidad del producto:", error);
-        res.status(500).send('Error al actualizar la cantidad del producto');
+        console.error("Error al actualizar la cantidad del producto:");
+        res.status(500).send('Error al actualizar la cantidad del producto', error);
     }
 });
 
@@ -122,8 +121,8 @@ router.delete('/:cid', async (req, res) => {
         await CM.deleteCart(cartId);
         res.send('Productos eliminados del carrito correctamente');
     } catch (error) {
-        console.error("Error al eliminar los productos del carrito:", error);
-        res.status(500).send('Error al eliminar los productos del carrito');
+        console.error("Error al eliminar los productos del carrito:");
+        res.status(500).send('Error al eliminar los productos del carrito', error);
     }
 });
 

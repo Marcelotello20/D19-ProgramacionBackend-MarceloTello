@@ -12,22 +12,19 @@ const PM = new ProductManagerDB();
 router.get('/', async (req, res) => {
     let { page = 1, limit = 10, sort, query } = req.query;
 
-    // Convertir el string de sort a un objeto si es necesario
     if (sort) {
         sort = JSON.parse(sort);
     } else {
-        sort = { _id: 'asc' }; // Ordenar por defecto por _id ascendente si no se especifica el sort
+        sort = { _id: 'asc' }; 
     }
 
-    // Crear objeto de opciones para paginate-v2
     const options = {
         page: parseInt(page),
         limit: parseInt(limit),
         sort: sort,
-        lean: true // Devuelve documentos como objetos JavaScript planos en lugar de instancias de modelo de Mongoose
+        lean: true 
     };
 
-    // Crear opciones de consulta basadas en el query
     const queryOptions = query ? { title: { $regex: query, $options: 'i' } } : {};
 
     try {
@@ -46,8 +43,8 @@ router.get('/', async (req, res) => {
             ...result
         });
     } catch (error) {
-        console.error("Error al obtener productos:", error);
-        res.status(500).send('Error al obtener los productos');
+        console.error("Error al obtener productos");
+        res.status(500).send('Error al obtener los productos', error);
     }
 });
 
@@ -59,8 +56,8 @@ router.get('/realtimeproducts', async (req, res) => {
             style: 'index.css'
         });
     } catch (error) {
-        console.error("Error al obtener productos en tiempo real:", error);
-        res.status(500).send('Error al obtener los productos en tiempo real');
+        console.error("Error al obtener productos en tiempo real");
+        res.status(500).send('Error al obtener los productos en tiempo real', error);
     }
 });
 

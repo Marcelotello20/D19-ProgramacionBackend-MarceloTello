@@ -6,23 +6,16 @@ class ProductManagerDB {
 
         const {title, description, code, price, stock, category, thumbnails} = product;
 
-        // //Todos los campos son obligatorios expresion ternaria
-        // if(!product.title || !product.description || !product.category || !product.price || !product.code || !product.stock) {
-        //     console.error("Todos los campos son obligatorios.");
-        // }
-
-
         try {
             const result = await productModel.create({title, description, code, price, stock, category, thumbnails: thumbnails ?? []});
-            return result
-            console.log("Producto creado correctamente"); 
+            console.log("Producto creado correctamente");
+            return result 
         } catch (e) {
             console.error("Error al crear  el producto \n", e);
         }
         
     }
     
-    //Obtener Productos
     async getProducts() {
         try {
             let response = await productModel.find().explain('executionStats');
@@ -34,17 +27,21 @@ class ProductManagerDB {
             throw new Error("Error al buscar los productos")
         }
     }
-    
-    //Obtener el producto por su Id 
+
     async getProductById(productId) {
-        const product = await productModel.findOne({_id: productId});
+        try {
+            const product = await productModel.findOne({_id: productId});
 
-        if (!product) throw new Error(`El producto ${productId} no existe`)
+            if (!product) throw new Error(`El producto ${productId} no existe`)
 
-        return product;
+            return product;
+        } catch (e) {
+            console.error(error.message);
+            throw new Error("Error al obtener el producto")
+        }
+        
     }
 
-    //Actualizar producto
     async updateProduct(productId,update) {
         try{
             const result = await productModel.updateOne({_id: productId}, update);
@@ -58,7 +55,6 @@ class ProductManagerDB {
 
     async deleteProduct(productId) {
         try {
-            //Productos
             const result = await productModel.deleteOne({_id: productId});
                    
             console.log("Producto eliminado correctamente");
@@ -69,8 +65,6 @@ class ProductManagerDB {
             throw new Error(`Error al eliminar el producto ${productId}`)
         }
     }
-
-
 }
 
 export default ProductManagerDB;
