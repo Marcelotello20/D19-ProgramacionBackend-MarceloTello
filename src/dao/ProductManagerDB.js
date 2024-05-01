@@ -68,9 +68,3 @@ class ProductManagerDB {
 }
 
 export default ProductManagerDB;
-
-
-
-
-
-
