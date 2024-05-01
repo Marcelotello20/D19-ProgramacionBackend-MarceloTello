@@ -12,10 +12,11 @@ const PM = new ProductManagerDB();
 const CM = new CartManagerDB();
 
 router.get('/', async (req, res) => {
-    let { page = 1, limit = 10, sort, query } = req.query;
+    let { page = 1, limit = 10, sortField, sortOrder, query } = req.query;
 
-    if (sort) {
-        sort = JSON.parse(sort);
+    let sort = {};
+    if (sortField) {
+        sort[sortField] = sortOrder === 'desc' ? -1 : 1;
     } else {
         sort = { _id: 'asc' }; 
     }
@@ -34,8 +35,8 @@ router.get('/', async (req, res) => {
         const result = await productModel.paginate(queryOptions, options);
 
         const baseURL = "http://localhost:8080";
-        result.prevLink = result.hasPrevPage ? `${baseURL}?page=${result.prevPage}&limit=${limit}&sort=${JSON.stringify(sort)}` : "";
-        result.nextLink = result.hasNextPage ? `${baseURL}?page=${result.nextPage}&limit=${limit}&sort=${JSON.stringify(sort)}` : "";
+        result.prevLink = result.hasPrevPage ? `${baseURL}?page=${result.prevPage}&limit=${limit}&sort=${encodeURIComponent(JSON.stringify(sort))}&sortField=${sortField}&sortOrder=${sortOrder}` : "";
+        result.nextLink = result.hasNextPage ? `${baseURL}?page=${result.nextPage}&limit=${limit}&sort=${encodeURIComponent(JSON.stringify(sort))}&sortField=${sortField}&sortOrder=${sortOrder}` : "";        
         result.isValid = !(page <= 0 || page > result.totalPages);
 
         console.log("Productos obtenidos con éxito");

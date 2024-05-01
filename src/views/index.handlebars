@@ -2,10 +2,15 @@
     <h1 class="title">Productos</h1>
     {{#if isValid}}
         <ul class="productList">
-        {{#each products}}
-            <li>{{this.title}} - {{this.description}} - {{this.price}}</li>
-            <br>
-        {{/each}}
+            {{#each products}}
+            <div class="product">
+                <h3>{{title}}</h3>
+                <p>Precio: {{price}}</p>
+                <p>Descripción: {{description}}</p>
+                <p>Disponibles: {{stock}}</p>
+                <button class="add-to-cart" data-product-id="{{_id}}">Agregar al carrito</button>
+            </div>
+            {{/each}}
         </ul>
         <hr>
         <div class="buttonsPag">
