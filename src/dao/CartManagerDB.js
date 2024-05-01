@@ -51,15 +51,18 @@ class CartManagerDB {
 
     async getCartById(cartId) {
         try {
-            console.log(`Buscando el carrito con id ${cartId}`);
             const cart = await cartModel.findOne({_id: cartId}).populate('products.product');
+
             if (!cart) {
                 console.error("No se encontro este carrito");
                 return null;
+            } else {
+                console.log(`Se encontro el carrito con el id ${cartId}`)
             }
+            
             return cart;
         } catch (error) {
-            console.error('No se pudo encontrar el carrito con el id solicitado', error);
+            console.error(`No se pudo encontrar el carrito con el id solicitado:${cartId}`, error);
             return null;
         }
     }

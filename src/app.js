@@ -6,7 +6,6 @@ import chatRouter from './routes/chat.router.js';
 import viewsRouter from './routes/views.router.js';
 import __dirname from './utils/utils.js';
 
-
 import {Server} from 'socket.io';
 import websocket from './websocket.js';
 import mongoose from 'mongoose';
@@ -29,17 +28,15 @@ app.set('views',__dirname+'/../views');
 app.set('view engine','handlebars');
 
 //Middlewares
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-app.use(express.static(__dirname+'/../public'))
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(__dirname+'/../public'));
 
 //Routers
 app.use('/',viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/chat', chatRouter);
-
 
 const PORT = 8080;
 const httpServer = app.listen(PORT,() => { 
@@ -49,4 +46,3 @@ const httpServer = app.listen(PORT,() => {
 const io = new Server(httpServer);
 
 websocket(io);
-

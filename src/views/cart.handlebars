@@ -1,13 +1,16 @@
 <div class="container">
     <h1 class="title">Carrito</h1>
-    {{#if products.length}}
+    <div class="cartProducts">
+        {{#if products.length}}
         <ul>
             {{#each products}}
-                <li>{{this}}</li>
+                <li>{{this.product.title}}: {{this.quantity}}</li>
             {{/each}}
         </ul>
-    {{else}}
-       <h2>No hay productos en el carrito</h2>
-    {{/if}}
+        {{#else}}
+        <h2>No hay productos en el carrito</h2>
+        {{/else}}
+        {{/if}}
+    </div>
 </div>
 <script src="/js/cart.js"></script>
