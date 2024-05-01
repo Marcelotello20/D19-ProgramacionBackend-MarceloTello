@@ -94,7 +94,6 @@ router.delete('/:cid/product/:pid', async (req, res) => {
     }
 });
 
-
 router.put('/:cid/products/:pid', async (req, res) => {
     //DB
     const cartId = req.params.cid;
@@ -135,7 +134,5 @@ router.delete('/:cid', async (req, res) => {
         res.status(500).send('Error al eliminar los productos del carrito', error);
     }
 });
-
-
 
 export default cartsRouter;

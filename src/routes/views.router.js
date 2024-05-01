@@ -89,7 +89,7 @@ router.get('/cart/:cid', async (req,res) => {
         let cart = await CM.getCartById(cartId)
         res.render('cart', {
             cart,
-            style: 'index.css'
+            style: '../../css/index.css'
         });
     } catch (error) {
         console.error("Error al obtener el carrito");
