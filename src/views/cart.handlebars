@@ -5,7 +5,6 @@
         <ul>
             {{#each cart.products}}
                 <li>{{this.product.title}}: {{this.quantity}}
-                    <input type="number" value="{{this.quantity}}" id="quantity_{{this.product._id}}">
                     <button onclick="updateQuantity('{{this.product._id}}')">Actualizar Cantidad</button>
                     <button onclick="removeProduct('{{this.product._id}}')">Eliminar</button>
                 </li>
