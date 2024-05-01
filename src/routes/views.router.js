@@ -3,11 +3,13 @@ import __dirname from '../utils/utils.js';
 // import ProductManagerFS from '../dao/ProductManagerFS.js';
 import ProductManagerDB from '../dao/ProductManagerDB.js';
 import productModel from '../dao/models/productModel.js';
+import CartManagerDB from '../dao/CartManagerDB.js'
 
 const router = express.Router();
 
 // const PM = new ProductManagerFS(`${__dirname}/../Productos.json`);
 const PM = new ProductManagerDB();
+const CM = new CartManagerDB();
 
 router.get('/', async (req, res) => {
     let { page = 1, limit = 10, sort, query } = req.query;
@@ -77,6 +79,21 @@ router.get('/chat', async (req,res) => {
     res.render('chat', {
         style: 'chat.css'
     });
+})
+
+router.get('/cart/:cid', async (req,res) => {
+    let cartId = req.params.cid;
+
+    try{
+        let cart = await CM.getCartById(cartId)
+        res.render('cart', {
+            cart,
+            style: 'index.css'
+        });
+    } catch (error) {
+        console.error("Error al obtener el carrito");
+        res.status(500).send('Error al obtener el carrito', error);
+    }
 })
 
 export default router;

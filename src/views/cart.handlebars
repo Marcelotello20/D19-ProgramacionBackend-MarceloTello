@@ -1,0 +1,13 @@
+<div class="container">
+    <h1 class="title">Carrito</h1>
+    {{#if products.length}}
+        <ul>
+            {{#each products}}
+                <li>{{this}}</li>
+            {{/each}}
+        </ul>
+    {{else}}
+       <h2>No hay productos en el carrito</h2>
+    {{/if}}
+</div>
+<script src="/js/cart.js"></script>

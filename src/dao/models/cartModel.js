@@ -23,11 +23,11 @@ const cartSchema = new mongoose.Schema({
   }
 });
 
-cartSchema.plugin(mongoosePaginate);
-
 cartSchema.pre("find", function() {
   this.populate("products.product");
 })
+
+cartSchema.plugin(mongoosePaginate);
 
 export const cartModel = mongoose.model(cartCollection, cartSchema)
 export default cartModel;

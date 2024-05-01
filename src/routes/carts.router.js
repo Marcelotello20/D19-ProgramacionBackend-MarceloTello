@@ -94,7 +94,7 @@ router.delete('/:cid/product/:pid', async (req, res) => {
     }
 });
 
-// PUT api/carts/:cid/products/:pid deberá poder actualizar SÓLO la cantidad de ejemplares del producto por cualquier cantidad pasada desde req.body
+
 router.put('/:cid/products/:pid', async (req, res) => {
     //DB
     const cartId = req.params.cid;
@@ -103,7 +103,6 @@ router.put('/:cid/products/:pid', async (req, res) => {
     const { quantity } = req.body;
 
     try {
-        
         await CM.updateProductQuantity(cartId, productId, quantity);
         res.send('Cantidad de producto actualizada correctamente');
     } catch (error) {
@@ -112,13 +111,24 @@ router.put('/:cid/products/:pid', async (req, res) => {
     }
 });
 
-// Eliminar carrito
+router.put('/:cid', async (req, res) => {
+    const cartId = req.params.cid;
+    const { products } = req.body;
+    try {
+        await CM.updateCart(cartId, products);
+        res.send('Carrito actualizado correctamente');
+    } catch (error) {
+        console.error("Error al actualizar la cantidad del producto:");
+        res.status(500).send('Error al actualizar la cantidad del producto', error);
+    }
+})
+
 router.delete('/:cid', async (req, res) => {
     //DB
     const cartId = req.params.cid;
 
     try {
-        await CM.deleteCart(cartId);
+        await CM.removeAllProductsFromCart(cartId);
         res.send('Productos eliminados del carrito correctamente');
     } catch (error) {
         console.error("Error al eliminar los productos del carrito:");
