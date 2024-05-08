@@ -37,7 +37,7 @@ router.post("/login", async (req, res) => {
             return res.redirect("/login");
         }
 
-        console.log("Se estan comparando >>>>>>", result.password, req.body.password);
+        console.log("Iniciando sesion >>>>>>", result.password, req.body.password);
         if (!isValidPassword(result, req.body.password)) {
             req.session.failLogin = true;
             return res.redirect("/login");

@@ -13,7 +13,7 @@ const router = express.Router();
 const PM = new ProductManagerDB();
 const CM = new CartManagerDB();
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
     let { page = 1, limit = 10, sortField, sortOrder, query } = req.query;
 
     let sort = {};
@@ -49,20 +49,26 @@ router.get('/', async (req, res) => {
             user: req.session.user
         });
     } catch (error) {
-        console.error("Error al obtener productos");
-        res.status(500).send('Error al obtener los productos', error);
+        console.error("Error al obtener productos", error);
+        res.status(500).send('Error al obtener los productos');
     }
 });
-// router.get("/", auth, (req, res) => {
-//     res.render(
-//         'index',
-//         {
-//             title: 'Coder House',
-//             style: 'user.css',
-//             user: req.session.user
-//         }
-//     )
-// }); 
+
+router.get("/profile", auth, (req, res) => {
+    try {
+        res.render(
+            'index',
+            {
+                title: 'Perfil',
+                style: 'user.css',
+                user: req.session.user
+            }
+        )
+    } catch(e){
+        console.error('Error al cargar el perfil', e);
+        res.status(500).send("Error al cargar el perfil en el servidor");
+    }
+}); 
 
 router.get('/realtimeproducts', async (req, res) => {
     try {
@@ -114,7 +120,7 @@ router.get("/login", (req, res) => {
     res.render(
         'login',
         {
-            title: 'Coder House',
+            title: 'Login',
             style: 'user.css',
             failLogin: req.session.failLogin ?? false
         }
@@ -125,7 +131,7 @@ router.get("/register", (req, res) => {
     res.render(
         'register',
         {
-            title: 'Coder House',
+            title: 'Registro',
             style: 'user.css',
             failRegister: req.session.failRegister ?? false
         }

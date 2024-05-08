@@ -24,6 +24,12 @@ body {
     margin: 0;
 }
 
+.container h2 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 12px;
+    text-align: center;
+}
+
 .container .productList {
     width: 80%;
     display: grid;

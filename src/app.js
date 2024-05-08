@@ -37,27 +37,26 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(__dirname+'/../public'));
 app.use(cookieParser());
 
+//Session
+app.use(session(
+    {
+    store:MongoStore.create({
+        mongoUrl:uri,
+        mongoOptions:{useNewUrlParser:true,useUnifiedTopology:true},
+        ttl:15,
+    }),
+    secret: "asd3ssfggwu22",
+    resave:false,
+    saveUninitialized:false
+    }
+))
+
 //Routers
 app.use('/',viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 app.use('/api/chat', chatRouter);
 app.use('/api/sessions', usersRouter);
-
-//Session
-// app.use(session(
-//     {
-//     // store: new fileStorage({path:'./sessions', ttl:100,retries:0}),
-//     store:MongoStore.create({
-//         mongoUrl:uri,
-//         mongoOptions:{useNewUrlParser:true,useUnifiedTopology:true},
-//         ttl:15,
-//     }),
-//     secret: "asd3ssfggwu22",
-//     resave:false,
-//     saveUninitialized:false
-//     }
-// ))
 
 const PORT = 8080;
 const httpServer = app.listen(PORT,() => { 
