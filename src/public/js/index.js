@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    createCart();
+    // createCart();
 
     addToCartButtons.forEach(button => {
         button.addEventListener('click', async (event) => {

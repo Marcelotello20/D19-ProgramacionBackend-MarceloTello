@@ -5,6 +5,8 @@ import ProductManagerDB from '../dao/ProductManagerDB.js';
 import productModel from '../dao/models/productModel.js';
 import CartManagerDB from '../dao/CartManagerDB.js'
 
+import auth from '../middlewares/auth.js'
+
 const router = express.Router();
 
 // const PM = new ProductManagerFS(`${__dirname}/../Productos.json`);
@@ -43,13 +45,24 @@ router.get('/', async (req, res) => {
         res.render('index', {
             products: result.docs,
             style: 'index.css',
-            ...result
+            ...result,
+            user: req.session.user
         });
     } catch (error) {
         console.error("Error al obtener productos");
         res.status(500).send('Error al obtener los productos', error);
     }
 });
+// router.get("/", auth, (req, res) => {
+//     res.render(
+//         'index',
+//         {
+//             title: 'Coder House',
+//             style: 'user.css',
+//             user: req.session.user
+//         }
+//     )
+// }); 
 
 router.get('/realtimeproducts', async (req, res) => {
     try {
@@ -96,5 +109,27 @@ router.get('/cart/:cid', async (req,res) => {
         res.status(500).send('Error al obtener el carrito', error);
     }
 })
+
+router.get("/login", (req, res) => {
+    res.render(
+        'login',
+        {
+            title: 'Coder House',
+            style: 'user.css',
+            failLogin: req.session.failLogin ?? false
+        }
+    )
+});
+
+router.get("/register", (req, res) => {
+    res.render(
+        'register',
+        {
+            title: 'Coder House',
+            style: 'user.css',
+            failRegister: req.session.failRegister ?? false
+        }
+    )
+});
 
 export default router;
