@@ -14,6 +14,9 @@ import cookieParser from 'cookie-parser';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
+import passport from 'passport';
+import initializePassport from './config/passport.config.js';
+
 const app = express();
 
 //MongoDB connect
@@ -50,6 +53,9 @@ app.use(session(
     saveUninitialized:false
     }
 ))
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 //Routers
 app.use('/',viewsRouter);

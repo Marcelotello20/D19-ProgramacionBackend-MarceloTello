@@ -5,15 +5,19 @@
     <form class="box" method="post" action="/api/sessions/login">
 
         <label for="email">Email</label>
-        <input type="email" name="email" id="email">
+        <input type="email" name="email" id="email" autocomplete="current-username">
 
         <label for="password">Password</label>
-        <input type="password" name="password" id="password">
+        <input type="password" name="password" id="password" autocomplete="current-password">
 
         <button type="submit">Login</button>
     </form>
+    <div>
+        <a href="/api/sessions/github"><button>Entrar con Github</button></a>
+    </div>
     <br>
-    <span><a href="/register" target="_self">Register</a></span>
+    <p>¿No tienes una cuenta?</p>
+    <span><a href="/register" target="_self">Registrate aquí</a></span>
 </div>
 
 {{#if failLogin}}
