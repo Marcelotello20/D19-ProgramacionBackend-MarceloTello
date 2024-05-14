@@ -13,6 +13,7 @@ router.get('/failregister', async(req,res)=> {
 })
 
 router.post("/login", passport.authenticate('login',{failureRedirect:'/faillogin'}) ,async (req, res) => {
+    req.session.user = req.user;
     res.redirect('/')
 });
 router.post("faillogin", async(req,res) => {
@@ -22,7 +23,6 @@ router.post("faillogin", async(req,res) => {
 
 router.get('/github', passport.authenticate('github',{scope:['user:email']}),async(req,res) => {});
 router.get('/githubcallback',passport.authenticate('github',{failureRedirect: '/login'}), async(req,res) =>{
-    req.session.user = req.user;
     res.redirect('/');
 })
 

@@ -55,17 +55,21 @@ const initializePassport = () => {
             }
         }
     ));
+
+    const CLIENT_ID = "Iv23ctAiZVTI2pNeSE29";
+    const SECRET_ID = '365e00ee4c7924909f79942f4023eb06e62606a5';
+
     passport.use('github', new GitHubStrategy({
-        clientID:"Iv23ctAiZVTI2pNeSE29",
-        clientSecret:'365e00ee4c7924909f79942f4023eb06e62606a5',
+        clientID: CLIENT_ID,
+        clientSecret: SECRET_ID,
         callbackURL:'http://localhost:8080/api/sessions/githubcallback'
     },async (accesToken,refreshToken,profile,done) => {
         try{
             console.log(profile);
-            let user = await userModel.findOne({email:profile._json.email})
+            let user = await userModel.findOne({email:profile._json.login})
             if(!user) {
                 let newUser = {
-                    first_name:profile._json.name,
+                    first_name:profile._json.name || `${profile._json.login}@github.com`,
                     last_name:'',
                     age:18,
                     email:profile._json.email,
@@ -77,7 +81,7 @@ const initializePassport = () => {
                 done(null,user);
             }
         } catch(e){
-            return done(error);
+            return done(e);
         }
     }))
 

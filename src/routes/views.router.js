@@ -1,11 +1,12 @@
 import express from 'express';
 import __dirname from '../utils/utils.js';
+import {generateToken, authToken} from '../utils/utils.js'
 // import ProductManagerFS from '../dao/ProductManagerFS.js';
 import ProductManagerDB from '../dao/ProductManagerDB.js';
 import productModel from '../dao/models/productModel.js';
 import CartManagerDB from '../dao/CartManagerDB.js'
 
-import auth from '../middlewares/auth.js'
+import {auth, logged} from '../middlewares/auth.js'
 
 const router = express.Router();
 
@@ -116,13 +117,14 @@ router.get('/cart/:cid', async (req,res) => {
     }
 })
 
-router.get("/login", (req, res) => {
+router.get("/login", logged ,async (req, res) => {
     res.render(
         'login',
         {
             title: 'Login',
             style: 'user.css',
-            failLogin: req.session.failLogin ?? false
+            loginFailed: req.session.loginFailed ?? false,
+            loginSucess: req.session.registerSuccess ?? false
         }
     )
 });
@@ -133,7 +135,8 @@ router.get("/register", (req, res) => {
         {
             title: 'Registro',
             style: 'user.css',
-            failRegister: req.session.failRegister ?? false
+            failRegister: req.session.failRegister ?? false,
+            registerSuccess: req.session.registerSuccess ?? false
         }
     )
 });

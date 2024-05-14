@@ -46,7 +46,7 @@ app.use(session(
     store:MongoStore.create({
         mongoUrl:uri,
         mongoOptions:{useNewUrlParser:true,useUnifiedTopology:true},
-        ttl:15,
+        ttl:3000,
     }),
     secret: "asd3ssfggwu22",
     resave:false,
